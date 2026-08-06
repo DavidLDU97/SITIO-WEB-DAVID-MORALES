@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Laboratorio de Fracciones</title>
+<style>
+body{margin:0;font-family:Arial;background:#87ceeb;overflow:hidden}
+.screen{display:none;height:100vh;align-items:center;justify-content:center;flex-direction:column}
+.active{display:flex}
+.bg{position:fixed;inset:0;background:linear-gradient(#6ec6ff,#b8f0ff);}
+.cloud{position:absolute;width:120px;height:40px;background:#fff;border-radius:40px;animation:move 18s linear infinite;opacity:.8}
+@keyframes move{from{left:-150px}to{left:110%}}
+.block{background:#6b8e23;padding:25px;border:6px solid #4e6b19;border-radius:10px;box-shadow:0 8px #3d5414;z-index:2;max-width:900px}
+input{padding:10px;margin:6px;width:260px}
+button{padding:12px 20px;background:#3fa34d;color:#fff;border:none;border-radius:8px;cursor:pointer}
+#hud{display:flex;gap:20px;font-size:20px;font-weight:bold;margin:10px}
+iframe{max-width:100%;border:0}
+.pixel{position:absolute;font-size:40px;animation:bob 1s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+</style></head>
+<body>
+<div class="bg">
+<div class="cloud" style="top:8%;animation-delay:0s"></div>
+<div class="cloud" style="top:20%;animation-delay:5s"></div>
+<div class="cloud" style="top:35%;animation-delay:9s"></div>
+<div class="pixel" style="left:8%;top:72%">🧱</div>
+<div class="pixel" style="left:82%;top:68%;animation-delay:.5s">⚔️</div>
+<div class="pixel" style="left:55%;top:80%;animation-delay:1s">💥</div>
+</div>
+
+<section id="s1" class="screen active">
+<div class="block">
+<h1>⛏️ Laboratorio de Fracciones</h1>
+<h3>¡Bienvenido aventurero!</h3>
+<p><b>Reglas</b></p>
+<ol>
+<li>Observa el modelo visual.</li>
+<li>Escribe la fracción correcta en GeoGebra.</li>
+<li>Cada acierto vale 1 punto.</li>
+<li>Debes llegar a 10 puntos.</li>
+</ol>
+<input id="nombre" placeholder="Nombre"><br>
+<input id="curso" placeholder="Curso"><br>
+<input id="fruta" placeholder="Fruta favorita"><br>
+<button onclick="comenzar()">🚀 Comenzar aventura</button>
+</div>
+</section>
+
+<section id="s2" class="screen">
+<div class="block" style="width:95%;text-align:center">
+<h2 id="saludo"></h2>
+<div id="hud">
+<div>⭐ Puntos: <span id="pts">0</span>/10</div>
+<div style="flex:1;background:#ddd;border-radius:10px;height:20px">
+<div id="bar" style="height:20px;width:0%;background:#32cd32;border-radius:10px"></div>
+</div>
+</div>
+<p><b>Actividad:</b> Escribe la fracción correspondiente al modelo visual.</p>
+<iframe scrolling="no" title="Escribir fracciones a partir de modelos visuales" src="https://www.geogebra.org/material/iframe/id/crmzxjdw/width/800/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" width="800" height="500"></iframe>
+<p>Cuando el estudiante responda correctamente, presiona:</p>
+<button onclick="sumar()">✅ Respuesta Correcta</button>
+<h2 id="fin"></h2>
+</div>
+</section>
+
+<script>
+let p=0;
+function comenzar(){
+let n=nombre.value.trim(),c=curso.value.trim(),f=fruta.value.trim();
+if(!n||!c||!f){alert("Completa todos los campos.");return;}
+s1.classList.remove("active"); s2.classList.add("active");
+saludo.textContent="⚔️ ¡Hola "+n.toUpperCase()+" "+f.toUpperCase()+"! Curso: "+c;
+}
+function sumar(){
+if(p<10){p++;pts.textContent=p;bar.style.width=(p*10)+"%";}
+if(p===10){
+fin.innerHTML="🏆 ¡FELICIDADES! Has conseguido los 10 puntos. 🎉";
+document.body.style.background="#d4ffd4";
+}
+}
+</script>
+</body></html>
