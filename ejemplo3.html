@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio Virtual: Pendiente de una Recta</title>
+    <style>
+        :root {
+            --primary-color: #6366f1; /* Índigo moderno */
+            --primary-hover: #4f46e5;
+            --success-color: #10b981; /* Verde esmeralda */
+            --error-color: #ef4444; /* Rojo suave */
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .lab-container {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .level-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .problem-section {
+            background-color: var(--bg-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .points-display {
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: var(--primary-color);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            padding: 12px;
+            font-size: 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-check {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-check:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-next {
+            background-color: var(--success-color);
+            color: white;
+            width: 100%;
+            display: none;
+            margin-top: 15px;
+        }
+
+        .btn-next:hover {
+            background-color: #059669;
+        }
+
+        .feedback {
+            font-weight: bold;
+            min-height: 24px;
+            margin-top: 15px;
+        }
+
+        .success { color: var(--success-color); }
+        .error { color: var(--error-color); }
+        
+        .victory-screen {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lab-container" id="main-container">
+        <div id="game-screen">
+            <header>
+                <h1>Laboratorio: Pendiente de una Recta</h1>
+                <div class="level-badge" id="level-indicator">Nivel 1</div>
+            </header>
+
+            <div class="problem-section">
+                <p>Calcula la pendiente (<strong>m</strong>) de la recta que pasa por los puntos:</p>
+                <div class="points-display">
+                    <span id="point-a">A(0, 0)</span>
+                    <span id="point-b">B(0, 0)</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="number" id="user-answer" step="0.01" placeholder="Ingresa tu respuesta aquí">
+                <button class="btn-check" id="check-btn" onclick="verificarRespuesta()">Verificar Respuesta</button>
+            </div>
+
+            <div class="feedback" id="feedback-msg"></div>
+            <button class="btn-next" id="next-btn" onclick="siguienteNivel()">Pasar al Nivel 2 ➔</button>
+        </div>
+
+        <div class="victory-screen" id="victory-screen">
+            <h1>¡Felicidades! 🏆</h1>
+            <p>Has completado todos los niveles del laboratorio con éxito.</p>
+            <button class="btn-check" onclick="reiniciarJuego()" style="margin-top: 20px;">Jugar de Nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuración del juego
+        let nivelActual = 1;
+        const totalNiveles = 3;
+        let pendienteCorrecta = 0;
+
+        // Elementos del DOM
+        const levelIndicator = document.getElementById('level-indicator');
+        const pointA_El = document.getElementById('point-a');
+        const pointB_El = document.getElementById('point-b');
+        const inputAnswer = document.getElementById('user-answer');
+        const feedbackMsg = document.getElementById('feedback-msg');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const gameScreen = document.getElementById('game-screen');
+        const victoryScreen = document.getElementById('victory-screen');
+
+        // Genera un número aleatorio entre min y max
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        // Inicializa un nivel
+        function cargarNivel() {
+            // Ajustar dificultad según el nivel
+            let rango = 5; 
+            if (nivelActual === 2) rango = 10;
+            if (nivelActual === 3) rango = 15;
+
+            let x1, y1, x2, y2;
+            
+            // Asegurarnos de que x1 != x2 para que la pendiente no sea indefinida (división por cero)
+            do {
+                x1 = randomInt(-rango, rango);
+                x2 = randomInt(-rango, rango);
+            } while (x1 === x2);
+
+            y1 = randomInt(-rango, rango);
+            y2 = randomInt(-rango, rango);
+
+            // Calcular pendiente real y redondearla a 2 decimales para facilitar la validación
+            let m = (y2 - y1) / (x2 - x1);
+            pendienteCorrecta = Math.round(m * 100) / 100;
+
+            // Actualizar Interfaz
+            levelIndicator.innerText = `Nivel ${nivelActual}`;
+            pointA_El.innerText = `A(${x1}, ${y1})`;
+            pointB_El.innerText = `B(${x2}, ${y2})`;
+            
+            // Reiniciar inputs y botones
+            inputAnswer.value = '';
+            inputAnswer.disabled = false;
+            feedbackMsg.innerText = '';
+            feedbackMsg.className = 'feedback';
+            checkBtn.style.display = 'block';
+            nextBtn.style.display = 'none';
+        }
+
+        function verificarRespuesta() {
+            const respuestaUsuario = parseFloat(inputAnswer.value);
+            
+            if (isNaN(respuestaUsuario)) {
+                feedbackMsg.innerText = "Por favor, ingresa un número.";
+                feedbackMsg.className = 'feedback error';
+                return;
+            }
+
+            // Validar con una pequeña tolerancia para errores de redondeo (0.05)
+            if (Math.abs(respuestaUsuario - pendienteCorrecta) <= 0.05) {
+                feedbackMsg.innerText = "¡Correcto! Excelente trabajo.";
+                feedbackMsg.className = 'feedback success';
+                
+                inputAnswer.disabled = true;
+                checkBtn.style.display = 'none';
+                
+                if (nivelActual < totalNiveles) {
+                    nextBtn.innerText = `Pasar al Nivel ${nivelActual + 1} ➔`;
+                    nextBtn.style.display = 'block';
+                } else {
+                    nextBtn.innerText = "Ver Resultados Finales ➔";
+                    nextBtn.style.display = 'block';
+                }
+            } else {
+                feedbackMsg.innerText = "Incorrecto. Intenta de nuevo.";
+                feedbackMsg.className = 'feedback error';
+            }
+        }
+
+        function siguienteNivel() {
+            if (nivelActual < totalNiveles) {
+                nivelActual++;
+                cargarNivel();
+            } else {
+                gameScreen.style.display = 'none';
+                victoryScreen.style.display = 'block';
+            }
+        }
+
+        function reiniciarJuego() {
+            nivelActual = 1;
+            gameScreen.style.display = 'block';
+            victoryScreen.style.display = 'none';
+            cargarNivel();
+        }
+
+        // Iniciar el juego al cargar la página
+        window.onload = cargarNivel;
+    </script>
+
+</body>
+</html>
