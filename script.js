@@ -226,7 +226,7 @@ actualizarHora();
 // PEGA TU API KEY ENTRE LAS COMILLAS
 // =====================================================
 
-const API_KEY = "AQ.Ab8RN6Jc9WKQ89fiv6kVMZx5mYKoghKwfHxGE1OhLjuJtv-8jg";
+const API_KEY = "AQ.Ab8RN6KhQ1_y-gEKzSydTvc4pRDXGskmjUGNL80g8hjApRPSQQ";
 
 // =====================================================
 
