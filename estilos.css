@@ -313,3 +313,394 @@ header h1{
     color:#00ffff;
 
 }
+/* ========================= */
+/* RETO */
+/* ========================= */
+
+.reto{
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:80px auto;
+
+    padding:50px;
+
+    border-radius:25px;
+
+    border:2px solid #00ffff;
+
+    background:rgba(255,255,255,.05);
+
+    text-align:center;
+
+    box-shadow:0 0 25px cyan;
+
+}
+
+.reto h2{
+
+    color:#00ffff;
+
+    font-size:42px;
+
+    margin-bottom:30px;
+
+}
+
+.reto p{
+
+    font-size:22px;
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+}
+
+/* ========================= */
+/* BOTONES */
+/* ========================= */
+
+button{
+
+    background:linear-gradient(45deg,#00ffff,#00ff88);
+
+    color:#050816;
+
+    border:none;
+
+    padding:18px 40px;
+
+    border-radius:15px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    font-family:'Orbitron',sans-serif;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+button:hover{
+
+    transform:scale(1.08);
+
+    box-shadow:0 0 25px cyan;
+
+}
+
+button:active{
+
+    transform:scale(.95);
+
+}
+
+/* ========================= */
+
+#mensajeReto{
+
+    margin-top:25px;
+
+    color:#00ff88;
+
+    font-size:24px;
+
+    min-height:40px;
+
+}
+
+/* ========================= */
+/* CHATBOT */
+/* ========================= */
+
+.chat{
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:80px auto;
+
+    padding:50px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.05);
+
+    border:2px solid cyan;
+
+    box-shadow:0 0 25px cyan;
+
+}
+
+.chat h2{
+
+    color:#00ffff;
+
+    text-align:center;
+
+    font-size:42px;
+
+    margin-bottom:20px;
+
+}
+
+.chat p{
+
+    text-align:center;
+
+    font-size:20px;
+
+    margin-bottom:30px;
+
+}
+
+textarea{
+
+    width:100%;
+
+    min-height:180px;
+
+    resize:vertical;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    font-size:18px;
+
+    background:#08172e;
+
+    color:white;
+
+    border:2px solid cyan;
+
+    margin-bottom:25px;
+
+    font-family:Arial,Helvetica,sans-serif;
+
+}
+
+textarea::placeholder{
+
+    color:#bfbfbf;
+
+}
+
+#respuesta{
+
+    margin-top:30px;
+
+    padding:25px;
+
+    min-height:140px;
+
+    background:#08172e;
+
+    border-radius:15px;
+
+    border:2px solid #00ffff;
+
+    line-height:1.8;
+
+    font-size:18px;
+
+    white-space:pre-wrap;
+
+}
+
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
+footer{
+
+    margin-top:80px;
+
+    padding:35px;
+
+    background:#02040d;
+
+    text-align:center;
+
+    font-size:18px;
+
+    color:#bfbfbf;
+
+    border-top:2px solid cyan;
+
+}
+
+/* ========================= */
+/* SCROLLBAR */
+/* ========================= */
+
+::-webkit-scrollbar{
+
+    width:12px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#030b1c;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#00ffff;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#00ff88;
+
+}
+
+/* ========================= */
+/* ANIMACIÓN DE ENTRADA */
+/* ========================= */
+
+header,
+.hero,
+.contenido,
+.cards,
+.curiosidades,
+.reto,
+.chat{
+
+    animation:entrada 1s ease;
+
+}
+
+@keyframes entrada{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:900px){
+
+header h1{
+
+    font-size:38px;
+
+}
+
+.hero{
+
+    padding:30px;
+
+}
+
+.hero h2{
+
+    font-size:30px;
+
+}
+
+.hero p{
+
+    font-size:18px;
+
+}
+
+.contenido h2{
+
+    font-size:32px;
+
+}
+
+.contenido p{
+
+    font-size:18px;
+
+}
+
+.card h3{
+
+    font-size:24px;
+
+}
+
+.card p{
+
+    font-size:17px;
+
+}
+
+.curiosidades h2{
+
+    font-size:32px;
+
+}
+
+.curiosidades li{
+
+    font-size:18px;
+
+}
+
+.reto h2{
+
+    font-size:32px;
+
+}
+
+.reto p{
+
+    font-size:18px;
+
+}
+
+.chat h2{
+
+    font-size:32px;
+
+}
+
+textarea{
+
+    min-height:150px;
+
+}
+
+button{
+
+    width:100%;
+
+}
+
+}
