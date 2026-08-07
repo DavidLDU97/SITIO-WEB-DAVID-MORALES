@@ -236,97 +236,82 @@ const pregunta = document.getElementById("pregunta");
 
 const respuesta = document.getElementById("respuesta");
 
-async function consultarGemini(){
+async function consultarGemini() {
 
     const texto = pregunta.value.trim();
 
-    if(texto===""){
-
-        respuesta.innerHTML="⚠️ Escribe una pregunta.";
-
+    if (!texto) {
+        respuesta.innerHTML = "⚠️ Escribe una pregunta.";
         return;
-
     }
 
-    respuesta.innerHTML="🤖 Pensando...";
+    respuesta.innerHTML = "🤖 Pensando...";
 
-    try{
+    try {
 
-        const peticion = await fetch(
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
 
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`,
-
-        {
-
-            method:"POST",
-
-            headers:{
-
-                "Content-Type":"application/json"
-
-            },
-
-            body:JSON.stringify({
-
-                contents:[
-
-                    {
-
-                        parts:[
-
-                            {
-
-                                text:
-
-`Eres un profesor experto en Matemáticas.
+                    contents: [
+                        {
+                            parts: [
+                                {
+                                    text:
+`Eres un profesor experto en geometría.
 
 Responde únicamente preguntas relacionadas con geometría.
 
-Explica de forma sencilla para estudiantes de Educación General Básica y Bachillerato.
+Explica de manera sencilla, clara y con ejemplos para estudiantes.
 
-Pregunta del estudiante:
+Pregunta:
 
 ${texto}`
+                                }
+                            ]
+                        }
+                    ],
 
-                            }
-
-                        ]
-
+                    generationConfig: {
+                        temperature: 0.7,
+                        topP: 0.9,
+                        maxOutputTokens: 1500
                     }
 
-                ]
+                })
 
-            })
+            }
+        );
 
-        });
+        const data = await response.json();
 
-        const datos = await peticion.json();
+        console.log(data);
 
-        if(datos.error){
+        if (data.error) {
 
-            respuesta.innerHTML="❌ Error:<br><br>"+datos.error.message;
+            respuesta.innerHTML =
+                "❌ " + data.error.message;
 
             return;
 
         }
 
-        const textoRespuesta=
-
-        datos.candidates[0]
-
-        .content.parts[0]
-
-        .text;
-
-        respuesta.innerHTML=textoRespuesta;
+        respuesta.innerHTML =
+            data.candidates[0].content.parts[0].text;
 
     }
 
-    catch(error){
+    catch (error) {
 
-        respuesta.innerHTML=
+        console.error(error);
 
-        "❌ No fue posible conectar con Gemini.<br><br>"+error;
+        respuesta.innerHTML =
+            "❌ Error de conexión con Gemini.";
 
     }
 
